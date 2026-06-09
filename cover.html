@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNAFU PICTURES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;width:100%;overflow:hidden;}
+    body{background:#080808;color:#f0ece4;font-family:'Libre Baskerville',Georgia,serif;}
+    .slides{position:fixed;inset:0;z-index:0;}
+    .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease;background-size:cover;background-position:center;}
+    .slide.active{opacity:1;}
+    .slide-1{background-image:url('IMG_5654_pelican.webp');}
+    .slide-2{background-image:url('bands.webp');}
+    .slide-3{background-image:url('DSCF2313_fence.webp');}
+    .overlay{position:fixed;inset:0;z-index:1;background:rgba(0,0,0,0.5);}
+    .logo{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;text-align:center;}
+    .logo-text{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,4rem);letter-spacing:0.25em;color:#f0ece4;}
+    .tagline-wrap{position:fixed;bottom:0;left:0;right:0;z-index:2;text-align:center;padding-bottom:3.5rem;}
+    .reveal{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,3.5vw,2.8rem);letter-spacing:0.18em;color:#f0ece4;display:block;margin-bottom:2rem;}
+    .enter-links{display:flex;justify-content:center;gap:4rem;}
+    .enter-links a{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:#aaa;text-decoration:none;transition:color 0.25s;}
+    .enter-links a:hover{color:#c8a96e;}
+    .contact{position:fixed;bottom:1.5rem;right:2rem;z-index:2;font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;color:#444;text-decoration:none;transition:color 0.25s;}
+    .contact:hover{color:#c8a96e;}
+  </style>
+</head>
+<body>
+  <div class="slides">
+    <div class="slide slide-1 active"></div>
+    <div class="slide slide-2"></div>
+    <div class="slide slide-3"></div>
+  </div>
+  <div class="overlay"></div>
+  <div class="logo">
+    <div class="logo-text">SNAFU PICTURES</div>
+  </div>
+  <div class="tagline-wrap">
+    <span class="reveal">REVEAL YOURSELF.</span>
+    <div class="enter-links">
+      <a href="index.html">Projects</a>
+      <a href="read-me.html">About</a>
+    </div>
+  </div>
+  <a class="contact" href="mailto:snafujesus@instagram.com">snafujesus@instagram.com</a>
+  <script>
+    var slides=document.querySelectorAll('.slide'),cur=0;
+    setInterval(function(){
+      slides[cur].classList.remove('active');
+      cur=(cur+1)%slides.length;
+      slides[cur].classList.add('active');
+    },5000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INQUIRING MINDS — SNAFU PICTURES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet"><style>@font-face{font-family:'Typeka';src:url('Typeka.otf') format('opentype');}</style>
+  <style>
+    :root {
+      --black:#080808;--off-black:#111111;--dark-gray:#1a1a1a;--mid-gray:#444444;--light-gray:#aaaaaa;--white:#f0ece4;--accent:#c8a96e;
+      --font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Cormorant Garamond',Georgia,serif;--font-mono:'Hanken Grotesk',sans-serif;
+      --nav-h:60px;--t:0.25s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--black);color:var(--white);font-family:var(--font-body);}
+    a{color:inherit;text-decoration:none;}
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(8,8,8,0.92);backdrop-filter:blur(8px);border-bottom:1px solid #222;}
+    .nav-inner{max-width:1400px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;gap:2rem;}
+    .site-title{font-family:var(--font-display);font-size:1.5rem;letter-spacing:0.12em;flex-shrink:0;transition:color var(--t);}
+    .site-title:hover{color:var(--accent);}
+    .nav-tagline{font-family:var(--font-body);font-style:italic;font-size:0.72rem;color:var(--mid-gray);flex-shrink:0;}
+    .nav-links{list-style:none;display:flex;align-items:center;gap:2rem;margin-left:auto;}
+    .nav-links>li>a,.nav-links>li>.dropdown-toggle{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--light-gray);cursor:pointer;transition:color var(--t);white-space:nowrap;}
+    .nav-links>li>a:hover,.nav-links>li>.dropdown-toggle:hover{color:var(--white);}
+    .nav-email{color:var(--accent)!important;}
+    .has-dropdown{position:relative;}
+    .dropdown{display:none;position:absolute;top:calc(100% + 12px);left:0;background:var(--off-black);border:1px solid #2a2a2a;list-style:none;min-width:220px;padding:0.5rem 0;box-shadow:0 12px 40px rgba(0,0,0,0.6);}
+    .dropdown.open{display:block;}
+    .dropdown li a{display:block;padding:0.6rem 1.2rem;font-family:var(--font-mono);font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light-gray);transition:background var(--t),color var(--t);}
+    .dropdown li a:hover{background:var(--dark-gray);color:var(--white);}
+
+    .page-wrap{max-width:700px;margin:0 auto;padding:calc(var(--nav-h) + 4rem) 2rem 6rem;}
+    .page-header{margin-bottom:3rem;border-bottom:1px solid #1e1e1e;padding-bottom:1.5rem;}
+    .eyebrow{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;}
+    .page-header h1{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,5rem);letter-spacing:0.06em;line-height:1;}
+    .page-header .subhead{font-family:var(--font-body);font-style:italic;font-size:0.82rem;color:var(--mid-gray);margin-top:0.75rem;}
+
+    .contact-form{display:flex;flex-direction:column;gap:1.5rem;}
+    .field-group{display:flex;flex-direction:column;gap:0.4rem;}
+    .field-group label{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid-gray);}
+    .field-group input,
+    .field-group textarea,
+    .field-group select{background:var(--dark-gray);border:1px solid #2a2a2a;color:var(--white);font-family:var(--font-body);font-size:0.85rem;padding:0.75rem 1rem;width:100%;transition:border-color var(--t);outline:none;appearance:none;}
+    .field-group input:focus,
+    .field-group textarea:focus,
+    .field-group select:focus{border-color:var(--accent);}
+    .field-group textarea{resize:vertical;min-height:140px;}
+    .field-group select option{background:var(--off-black);}
+
+    .submit-btn{align-self:flex-start;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;background:transparent;border:1px solid var(--accent);color:var(--accent);padding:0.75rem 2rem;cursor:pointer;transition:background var(--t),color var(--t);}
+    .submit-btn:hover{background:var(--accent);color:var(--black);}
+
+    .success-msg{display:none;font-family:var(--font-body);font-style:italic;font-size:0.9rem;color:var(--accent);padding:1rem 0;}
+
+    footer{border-top:1px solid #1e1e1e;text-align:center;padding:2rem;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;color:var(--mid-gray);}
+    footer a{color:var(--accent);}
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="site-title">SNAFU PICTURES</a>
+      <div class="nav-tagline">The gyre is widening.</div>
+      <ul class="nav-links">
+        <li><a href="projects.html">Home</a></li>
+        <li class="has-dropdown">
+          <span class="dropdown-toggle">Projects &#x25BE;</span>
+          <ul class="dropdown">
+            <li><a href="signs-of-disrepair.html">SIGNS OF DISREPAIR</a></li>
+            <li><a href="southernmost.html">SOUTHERNMOST</a></li>
+            <li><a href="toothacre.html">TOOTHACRE</a></li>
+            <li><a href="outer-dark.html">OUTER DARK</a></li>
+            <li><a href="creases.html">CREASES IN THE MAP</a></li>
+            <li><a href="angular.html">anguLAR</a></li>
+            <li><a href="trailers.html">Trailers</a></li>
+            <li><a href="inquiries.html">Inquiries</a></li>
+          </ul>
+        </li>
+        <li><a href="read-me.html">Read Me</a></li>
+        <li><a href="mailto:snafujesus@instagram.com" class="nav-email">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="eyebrow">Contact /</div>
+      <h1>INQUIRIES &amp;<br>DISQUISITIONS</h1>
+      <p class="subhead">Ask Zoltar / this gun for hire.</p>
+    </div>
+
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+      <div class="field-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required placeholder="Your name">
+      </div>
+
+      <div class="field-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="your@email.com">
+      </div>
+
+      <div class="field-group">
+        <label for="subject">Subject</label>
+        <select id="subject" name="subject">
+          <option value="">— Select —</option>
+          <option value="commission">Commission / Hire</option>
+          <option value="licensing">Licensing</option>
+          <option value="press">Press</option>
+          <option value="collaboration">Collaboration</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required placeholder="What's on your mind?"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Send It</button>
+      <div class="success-msg" id="success-msg">Transmission received. We'll be in touch.</div>
+
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; SNAFU PICTURES &mdash; <a href="mailto:snafujesus@instagram.com">snafujesus@instagram.com</a></p>
+  </footer>
+
+  <script>
+    const toggle=document.querySelector('.dropdown-toggle'),dd=document.querySelector('.dropdown');
+    if(toggle&&dd){toggle.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});document.addEventListener('click',()=>dd.classList.remove('open'));}
+
+    // Form submission via Formspree (free tier, no backend needed)
+    const form = document.getElementById('contact-form');
+    const successMsg = document.getElementById('success-msg');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (res.ok) {
+        form.reset();
+        successMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

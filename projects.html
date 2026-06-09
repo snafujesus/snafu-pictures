@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNAFU PICTURES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet"><style>@font-face{font-family:'Typeka';src:url('Typeka.otf') format('opentype');}</style>
+  <style>
+    :root{--black:#080808;--off-black:#111;--dark-gray:#1a1a1a;--mid-gray:#444;--light-gray:#aaa;--white:#f0ece4;--accent:#c8a96e;--nav-h:56px;--t:0.25s ease;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;}
+    body{background:var(--black);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;overflow:hidden;}
+    a{color:inherit;text-decoration:none;}
+
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(8,8,8,0.0);transition:background 0.4s;}
+    #nav.scrolled{background:rgba(8,8,8,0.93);backdrop-filter:blur(8px);border-bottom:1px solid #1e1e1e;}
+    .nav-inner{max-width:1600px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;gap:2rem;}
+    .site-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;letter-spacing:0.14em;flex-shrink:0;transition:color var(--t);}
+    .site-title:hover{color:var(--accent);}
+    .nav-tag{font-style:italic;font-size:0.7rem;color:var(--mid-gray);flex-shrink:0;}
+    .nav-links{list-style:none;display:flex;align-items:center;gap:1.8rem;margin-left:auto;}
+    .nav-links>li>a,.nav-links>li>.dd-toggle{font-family:'Hanken Grotesk',sans-serif;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--light-gray);cursor:pointer;transition:color var(--t);white-space:nowrap;}
+    .nav-links>li>a:hover,.nav-links>li>.dd-toggle:hover{color:var(--white);}
+    .nav-email{color:var(--accent)!important;}
+    .has-dd{position:relative;}
+    .dd-menu{display:none;position:absolute;top:calc(100% + 10px);left:0;background:var(--off-black);border:1px solid #2a2a2a;list-style:none;min-width:220px;padding:0.5rem 0;box-shadow:0 12px 40px rgba(0,0,0,0.7);}
+    .dd-menu.open{display:block;}
+    .dd-menu li a{display:block;padding:0.6rem 1.2rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light-gray);transition:background var(--t),color var(--t);}
+    .dd-menu li a:hover{background:var(--dark-gray);color:var(--white);}
+
+    /* FULL-SCREEN INDEX SLIDES */
+    .index-wrap{height:100vh;position:relative;}
+    .index-slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transition:opacity 0.8s ease;pointer-events:none;}
+    .index-slide.active{opacity:1;pointer-events:auto;}
+    .index-slide a{display:block;height:100%;}
+    .index-img{width:100%;height:100%;object-fit:cover;filter:brightness(0.6);transition:filter 0.5s ease;}
+    .index-slide:hover .index-img{filter:brightness(0.4);}
+    .index-overlay{position:absolute;bottom:0;left:0;right:0;padding:3rem 2.5rem;background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);}
+    .index-eyebrow{font-family:'Hanken Grotesk',sans-serif;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;}
+    .index-title{font-family:'Typeka',Georgia,serif;font-size:clamp(2.5rem,6vw,5rem);letter-spacing:0.08em;line-height:1;color:var(--white);}
+    .index-sub{font-style:italic;font-size:0.85rem;color:var(--light-gray);margin-top:0.4rem;}
+
+    /* NAV ARROWS */
+    .idx-prev,.idx-next{position:fixed;top:50%;transform:translateY(-50%);z-index:50;background:none;border:none;color:rgba(255,255,255,0.4);font-size:2rem;cursor:pointer;padding:1rem;transition:color var(--t);}
+    .idx-prev:hover,.idx-next:hover{color:var(--white);}
+    .idx-prev{left:0.5rem;}
+    .idx-next{right:0.5rem;}
+
+    /* COUNTER */
+    .idx-counter{position:fixed;bottom:1.5rem;right:2rem;z-index:50;font-family:'Hanken Grotesk',sans-serif;font-size:0.58rem;letter-spacing:0.12em;color:var(--mid-gray);}
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="site-title">SNAFU PICTURES</a>
+      <span class="nav-tag">The gyre is widening.</span>
+      <ul class="nav-links">
+        <li><a href="projects.html">Home</a></li>
+        <li class="has-dd"><span class="dd-toggle">Projects &#x25BE;</span>
+          <ul class="dd-menu">
+            <li><a href="signs-of-disrepair.html">SIGNS OF DISREPAIR</a></li>
+            <li><a href="southernmost.html">SOUTHERNMOST</a></li>
+            <li><a href="toothacre.html">TOOTHACRE</a></li>
+            <li><a href="outer-dark.html">OUTER DARK</a></li>
+            <li><a href="creases.html">CREASES IN THE MAP</a></li>
+            <li><a href="angular.html">anguLAR</a></li>
+            <li><a href="trailers.html">Trailers</a></li>
+            <li><a href="inquiries.html">Inquiries</a></li>
+          </ul>
+        </li>
+        <li><a href="read-me.html">Read Me</a></li>
+        <li><a href="mailto:snafujesus@instagram.com" class="nav-email">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="index-wrap" id="index-wrap">
+
+    <div class="index-slide active">
+      <a href="signs-of-disrepair.html">
+        <img class="index-img" src="Signs_of_Disrepair_DSCF4238.webp" alt="Signs of Disrepair">
+        <div class="index-overlay">
+          
+          <div class="index-title">SIGNS OF DISREPAIR</div>
+          
+        </div>
+      </a>
+    </div>
+
+    <div class="index-slide">
+      <a href="southernmost.html">
+        <img class="index-img" src="Southernmost_SOUTHERNMOST-6.webp" alt="Southernmost">
+        <div class="index-overlay">
+          
+          <div class="index-title">SOUTHERNMOST</div>
+          
+        </div>
+      </a>
+    </div>
+
+    <div class="index-slide">
+      <a href="toothacre.html">
+        <img class="index-img" src="Toothacre__DSF8361.webp" alt="Toothacre">
+        <div class="index-overlay">
+          
+          <div class="index-title">TOOTHACRE</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="index-slide">
+      <a href="outer-dark.html">
+        <img class="index-img" src="Outer_Dark_image-asset.webp" alt="Outer Dark">
+        <div class="index-overlay">
+          
+          <div class="index-title">OUTER DARK</div>
+          
+        </div>
+      </a>
+    </div>
+
+    <div class="index-slide">
+      <a href="creases.html">
+        <img class="index-img" src="Creases_In_The_Map_iquitos-12.webp" alt="Creases in the Map">
+        <div class="index-overlay">
+          
+          <div class="index-title">CREASES IN THE MAP</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="index-slide">
+      <a href="angular.html">
+        <img class="index-img" src="anguLAR_DSCF0726_wavy.webp" alt="anguLAR">
+        <div class="index-overlay">
+          <div class="index-title">anguLAR</div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <button class="idx-prev" onclick="idxPrev()">&#x2190;</button>
+  <button class="idx-next" onclick="idxNext()">&#x2192;</button>
+  <div class="idx-counter" id="idx-counter">1 / 6</div>
+
+  <script>
+    var slides=Array.from(document.querySelectorAll('.index-slide')),cur=0,total=slides.length;
+    function idxShow(n){slides[cur].classList.remove('active');cur=(n+total)%total;slides[cur].classList.add('active');document.getElementById('idx-counter').textContent=(cur+1)+' / '+total;}
+    function idxNext(){idxShow(cur+1);}
+    function idxPrev(){idxShow(cur-1);}
+    document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')idxNext();if(e.key==='ArrowLeft')idxPrev();});
+    const toggle=document.querySelector('.dd-toggle'),dd=document.querySelector('.dd-menu');
+    if(toggle&&dd){toggle.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});document.addEventListener('click',()=>dd.classList.remove('open'));}
+  </script>
+</body>
+</html>

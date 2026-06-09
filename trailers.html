@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trailers — SNAFU PICTURES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet"><style>@font-face{font-family:'Typeka';src:url('Typeka.otf') format('opentype');}</style>
+  <style>
+    :root {
+      --black:#080808;--off-black:#111111;--dark-gray:#1a1a1a;--mid-gray:#444444;--light-gray:#aaaaaa;--white:#f0ece4;--accent:#c8a96e;
+      --font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Cormorant Garamond',Georgia,serif;--font-mono:'Hanken Grotesk',sans-serif;
+      --nav-h:60px;--t:0.25s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--black);color:var(--white);font-family:var(--font-body);}
+    a{color:inherit;text-decoration:none;}
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(8,8,8,0.92);backdrop-filter:blur(8px);border-bottom:1px solid #222;}
+    .nav-inner{max-width:1400px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;gap:2rem;}
+    .site-title{font-family:var(--font-display);font-size:1.5rem;letter-spacing:0.12em;flex-shrink:0;transition:color var(--t);}
+    .site-title:hover{color:var(--accent);}
+    .nav-tagline{font-family:var(--font-body);font-style:italic;font-size:0.72rem;color:var(--mid-gray);flex-shrink:0;}
+    .nav-links{list-style:none;display:flex;align-items:center;gap:2rem;margin-left:auto;}
+    .nav-links>li>a,.nav-links>li>.dropdown-toggle{font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--light-gray);cursor:pointer;transition:color var(--t);white-space:nowrap;}
+    .nav-links>li>a:hover,.nav-links>li>.dropdown-toggle:hover{color:var(--white);}
+    .nav-email{color:var(--accent)!important;}
+    .has-dropdown{position:relative;}
+    .dropdown{display:none;position:absolute;top:calc(100% + 12px);left:0;background:var(--off-black);border:1px solid #2a2a2a;list-style:none;min-width:220px;padding:0.5rem 0;box-shadow:0 12px 40px rgba(0,0,0,0.6);}
+    .dropdown.open{display:block;}
+    .dropdown li a{display:block;padding:0.6rem 1.2rem;font-family:var(--font-mono);font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light-gray);transition:background var(--t),color var(--t);}
+    .dropdown li a:hover{background:var(--dark-gray);color:var(--white);}
+
+    .page-wrap{max-width:1000px;margin:0 auto;padding:calc(var(--nav-h) + 4rem) 2rem 6rem;}
+    .page-header{margin-bottom:3rem;border-bottom:1px solid #1e1e1e;padding-bottom:1.5rem;}
+    .eyebrow{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;}
+    .page-header h1{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,5rem);letter-spacing:0.06em;line-height:1;}
+
+    .trailer-block{margin-bottom:5rem;}
+    .video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:var(--dark-gray);}
+    .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+
+    /* placeholder for when no embed URL is set */
+    .video-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;}
+    .video-placeholder span{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.12em;color:var(--mid-gray);text-transform:uppercase;}
+    .video-placeholder a{font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;border:1px solid var(--accent);padding:0.5rem 1rem;transition:background var(--t),color var(--t);}
+    .video-placeholder a:hover{background:var(--accent);color:var(--black);}
+
+    .trailer-meta{margin-top:1.5rem;}
+    .trailer-title{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,2.2rem);letter-spacing:0.08em;margin-bottom:0.5rem;}
+    .trailer-desc{font-family:var(--font-body);font-style:italic;font-size:0.85rem;line-height:1.75;color:var(--light-gray);max-width:680px;margin-top:0.75rem;}
+
+    footer{border-top:1px solid #1e1e1e;text-align:center;padding:2rem;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;color:var(--mid-gray);}
+    footer a{color:var(--accent);}
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="site-title">SNAFU PICTURES</a>
+      <div class="nav-tagline">The gyre is widening.</div>
+      <ul class="nav-links">
+        <li><a href="projects.html">Home</a></li>
+        <li class="has-dropdown">
+          <span class="dropdown-toggle">Projects &#x25BE;</span>
+          <ul class="dropdown">
+            <li><a href="signs-of-disrepair.html">SIGNS OF DISREPAIR</a></li>
+            <li><a href="southernmost.html">SOUTHERNMOST</a></li>
+            <li><a href="toothacre.html">TOOTHACRE</a></li>
+            <li><a href="outer-dark.html">OUTER DARK</a></li>
+            <li><a href="creases.html">CREASES IN THE MAP</a></li>
+            <li><a href="angular.html">anguLAR</a></li>
+            <li><a href="trailers.html">Trailers</a></li>
+            <li><a href="inquiries.html">Inquiries</a></li>
+          </ul>
+        </li>
+        <li><a href="read-me.html">Read Me</a></li>
+        <li><a href="mailto:snafujesus@instagram.com" class="nav-email">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="eyebrow">Projects /</div>
+      <h1>TRAILERS</h1>
+    </div>
+
+    <!-- SOUTHERNMOST TRAILER -->
+    <div class="trailer-block">
+      <div class="video-wrap">
+        <!--
+          Replace the src below with your Vimeo or YouTube embed URL.
+          Vimeo:   https://player.vimeo.com/video/YOUR_VIDEO_ID
+          YouTube: https://www.youtube.com/embed/YOUR_VIDEO_ID
+        -->
+        <div class="video-placeholder">
+          <span>Southernmost Trailer</span>
+          <a href="mailto:snafujesus@instagram.com">Request Link</a>
+        </div>
+      </div>
+      <div class="trailer-meta">
+        <div class="trailer-title">SOUTHERNMOST — Extended Trailer</div>
+        <p class="trailer-desc">Following the last working-class neighborhood in the Florida Keys as it struggles to rebuild in the aftermath of Hurricane Irma, assailed by predatory developers and local politicians hungry for tourist dollars.</p>
+      </div>
+    </div>
+
+    <!-- Add more trailers below in the same format -->
+
+  </div>
+
+  <footer>
+    <p>&copy; SNAFU PICTURES &mdash; <a href="mailto:snafujesus@instagram.com">snafujesus@instagram.com</a></p>
+  </footer>
+
+  <script>
+    const toggle=document.querySelector('.dropdown-toggle'),dd=document.querySelector('.dropdown');
+    if(toggle&&dd){toggle.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});document.addEventListener('click',()=>dd.classList.remove('open'));}
+  </script>
+</body>
+</html>

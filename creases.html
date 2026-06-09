@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CREASES IN THE MAP — SNAFU PICTURES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Hanken+Grotesk:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    @font-face{font-family:'Typeka';src:url('Typeka.otf') format('opentype');}
+    :root{--black:#080808;--off-black:#111;--dark-gray:#1a1a1a;--mid-gray:#444;--light-gray:#aaa;--white:#f0ece4;--accent:#c8a96e;--nav-h:56px;--t:0.25s ease;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--black);color:var(--white);font-family:'Hanken Grotesk',sans-serif;}
+    a{color:inherit;text-decoration:none;}
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(8,8,8,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #1e1e1e;}
+    .nav-inner{max-width:1600px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;gap:2rem;}
+    .site-title{font-family:'Typeka',Georgia,serif;font-size:1.1rem;letter-spacing:0.14em;flex-shrink:0;transition:color var(--t);}
+    .site-title:hover{color:var(--accent);}
+    .nav-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.78rem;color:var(--mid-gray);flex-shrink:0;}
+    .nav-links{list-style:none;display:flex;align-items:center;gap:1.8rem;margin-left:auto;}
+    .nav-links>li>a,.nav-links>li>.dd-toggle{font-family:'Hanken Grotesk',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light-gray);cursor:pointer;transition:color var(--t);white-space:nowrap;}
+    .nav-links>li>a:hover,.nav-links>li>.dd-toggle:hover{color:var(--white);}
+    .nav-email{color:var(--accent)!important;}
+    .has-dd{position:relative;}
+    .dd-menu{display:none;position:absolute;top:calc(100% + 10px);left:0;background:var(--off-black);border:1px solid #2a2a2a;list-style:none;min-width:220px;padding:0.5rem 0;box-shadow:0 12px 40px rgba(0,0,0,0.7);}
+    .dd-menu.open{display:block;}
+    .dd-menu li a{display:block;padding:0.6rem 1.2rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light-gray);transition:background var(--t),color var(--t);}
+    .dd-menu li a:hover{background:var(--dark-gray);color:var(--white);}
+    .page-wrap{max-width:1400px;margin:0 auto;padding:calc(var(--nav-h) + 3rem) 2rem 6rem;}
+    .page-header{margin-bottom:2.5rem;border-bottom:1px solid #1e1e1e;padding-bottom:1.2rem;}
+    .eyebrow{font-family:'Hanken Grotesk',sans-serif;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;}
+    .page-header h1{font-family:'Typeka',Georgia,serif;font-size:clamp(2rem,5vw,3.8rem);letter-spacing:0.06em;line-height:1;}
+    .gallery-grid{columns:2;column-gap:4px;}
+    @media(max-width:900px){.gallery-grid{columns:2;}}
+    @media(max-width:500px){.gallery-grid{columns:1;}}
+    .g-item{break-inside:avoid;margin-bottom:4px;cursor:pointer;overflow:hidden;position:relative;}
+    .g-item img{display:block;width:100%;height:auto;filter:brightness(0.88);transition:filter 0.4s,transform 0.5s;}
+    .g-item:hover img{filter:brightness(0.5);transform:scale(1.02);}
+    .g-cap{position:absolute;bottom:0;left:0;right:0;padding:2rem 0.8rem 0.6rem;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.78rem;color:var(--light-gray);opacity:0;transition:opacity 0.3s;}
+    .g-item:hover .g-cap{opacity:1;}
+    #lb{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.97);flex-direction:column;align-items:center;justify-content:center;}
+    #lb.open{display:flex;}
+    #lb img{max-width:90vw;max-height:82vh;object-fit:contain;}
+    .lb-close{position:fixed;top:1.2rem;right:1.5rem;font-size:0.9rem;color:var(--mid-gray);cursor:pointer;background:none;border:none;transition:color var(--t);}
+    .lb-close:hover{color:var(--white);}
+    .lb-prev,.lb-next{position:fixed;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--mid-gray);cursor:pointer;background:none;border:none;padding:1rem;transition:color var(--t);}
+    .lb-prev{left:0.5rem;}.lb-next{right:0.5rem;}
+    .lb-prev:hover,.lb-next:hover{color:var(--white);}
+    .lb-caption{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.82rem;color:var(--light-gray);text-align:center;max-width:600px;padding:0 1rem;}
+    .lb-counter{position:fixed;top:1.2rem;left:50%;transform:translateX(-50%);font-family:'Hanken Grotesk',sans-serif;font-size:0.55rem;letter-spacing:0.12em;color:var(--mid-gray);}
+    footer{border-top:1px solid #1e1e1e;text-align:center;padding:1.5rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.55rem;letter-spacing:0.1em;color:var(--mid-gray);}
+    footer a{color:var(--accent);}
+  </style>
+</head>
+<body>
+  <nav id="nav"><div class="nav-inner">
+    <a href="index.html" class="site-title">SNAFU PICTURES</a>
+    <span class="nav-tag">The gyre is widening.</span>
+    <ul class="nav-links">
+      <li><a href="projects.html">Projects</a></li>
+      <li class="has-dd"><span class="dd-toggle">Series &#x25BE;</span>
+        <ul class="dd-menu">
+          <li><a href="signs-of-disrepair.html">Signs of Disrepair</a></li>
+          <li><a href="southernmost.html">Southernmost</a></li>
+          <li><a href="toothacre.html">Toothacre</a></li>
+          <li><a href="outer-dark.html">Outer Dark</a></li>
+          <li><a href="creases.html">Creases in the Map</a></li>
+          <li><a href="angular.html">anguLAR</a></li>
+          <li><a href="trailers.html">Trailers</a></li>
+          <li><a href="inquiries.html">Inquiries</a></li>
+        </ul>
+      </li>
+      <li><a href="read-me.html">Read Me</a></li>
+      <li><a href="mailto:snafujesus@instagram.com" class="nav-email">Contact</a></li>
+    </ul>
+  </div></nav>
+  <div class="page-wrap">
+    <div class="page-header"><div class="eyebrow">Projects /</div><h1>CREASES IN THE MAP</h1></div>
+    <div class="gallery-grid" id="gallery">
+      <div class="g-item"><img src="Creases_In_The_Map_iquitos-18.webp" alt="Iquitos rooftops"></div>
+      <div class="g-item"><img src="Creases_In_The_Map_MCDG1380.webp" alt="Worker through window"></div>
+      <div class="g-item"><img src="Creases_In_The_Map_iquitos-12.webp" alt="TRAIDORA"><div class="g-cap">TRAIDORA</div></div>
+      <div class="g-item"><img src="Creases_In_The_Map_iquitos-4.webp" alt="Stilt houses on the water"></div>
+    </div>
+  </div>
+  <div id="lb">
+    <button class="lb-close">&#x2715;</button>
+    <button class="lb-prev">&#x2190;</button>
+    <img id="lb-img" src="" alt="">
+    <button class="lb-next">&#x2192;</button>
+    <div class="lb-caption" id="lb-cap"></div>
+    <div class="lb-counter" id="lb-ct"></div>
+  </div>
+  <footer><p>&copy; SNAFU PICTURES &mdash; <a href="mailto:snafujesus@instagram.com">snafujesus@instagram.com</a></p></footer>
+  <script>
+    const toggle=document.querySelector('.dd-toggle'),dd=document.querySelector('.dd-menu');
+    if(toggle&&dd){toggle.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});document.addEventListener('click',()=>dd.classList.remove('open'));}
+    const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap'),lbCt=document.getElementById('lb-ct');
+    const items=Array.from(document.querySelectorAll('.g-item'));let cur=0;
+    function open(i){cur=i;const img=items[i].querySelector('img');const cap=items[i].querySelector('.g-cap');lbImg.src=img.src;lbImg.alt=img.alt;lbCap.textContent=cap?cap.textContent:'';lbCt.textContent=(i+1)+' / '+items.length;lb.classList.add('open');document.body.style.overflow='hidden';}
+    function close(){lb.classList.remove('open');document.body.style.overflow='';}
+    function prev(){open((cur-1+items.length)%items.length);}
+    function next(){open((cur+1)%items.length);}
+    items.forEach((item,i)=>item.addEventListener('click',()=>open(i)));
+    document.querySelector('.lb-close').addEventListener('click',close);
+    document.querySelector('.lb-prev').addEventListener('click',prev);
+    document.querySelector('.lb-next').addEventListener('click',next);
+    lb.addEventListener('click',e=>{if(e.target===lb)close();});
+    document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')prev();if(e.key==='ArrowRight')next();});
+  </script>
+</body></html>
