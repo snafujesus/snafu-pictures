@@ -7,52 +7,56 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Hanken+Grotesk:wght@300;400&display=swap" rel="stylesheet">
   <style>
     @font-face{font-family:'Typeka';src:url('Typeka.otf') format('opentype');}
-    :root{--black:#080808;--off-black:#111;--dark-gray:#1a1a1a;--mid-gray:#444;--light-gray:#aaa;--white:#f0ece4;--accent:#c8a96e;--nav-h:56px;--t:0.25s ease;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{background:var(--black);color:var(--white);font-family:'Hanken Grotesk',sans-serif;}
+    html,body{height:100%;background:#080808;color:#f0ece4;font-family:'Hanken Grotesk',sans-serif;overflow:hidden;}
     a{color:inherit;text-decoration:none;}
-    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(8,8,8,0.95);backdrop-filter:blur(8px);border-bottom:1px solid #1e1e1e;}
-    .nav-inner{max-width:1600px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;gap:2rem;}
-    .site-title{font-family:'Typeka',Georgia,serif;font-size:1.1rem;letter-spacing:0.14em;flex-shrink:0;transition:color var(--t);}
-    .site-title:hover{color:var(--accent);}
-    .nav-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.78rem;color:var(--mid-gray);flex-shrink:0;}
-    .nav-links{list-style:none;display:flex;align-items:center;gap:1.8rem;margin-left:auto;}
-    .nav-links>li>a,.nav-links>li>.dd-toggle{font-family:'Hanken Grotesk',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light-gray);cursor:pointer;transition:color var(--t);white-space:nowrap;}
-    .nav-links>li>a:hover,.nav-links>li>.dd-toggle:hover{color:var(--white);}
-    .nav-email{color:var(--accent)!important;}
+
+    /* NAV */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(8,8,8,0.95);border-bottom:1px solid #1e1e1e;display:flex;align-items:center;padding:0 1.5rem;gap:1.5rem;}
+    .site-title{font-family:'Typeka',Georgia,serif;font-size:1rem;letter-spacing:0.14em;transition:color .25s;}
+    .site-title:hover{color:#c8a96e;}
+    .nav-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.72rem;color:#444;}
+    .nav-links{list-style:none;display:flex;align-items:center;gap:1.5rem;margin-left:auto;}
+    .nav-links>li>a,.nav-links>li>.dd-toggle{font-family:'Hanken Grotesk',sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;cursor:pointer;transition:color .25s;white-space:nowrap;}
+    .nav-links>li>a:hover,.nav-links>li>.dd-toggle:hover{color:#f0ece4;}
+    .nav-email{color:#c8a96e!important;}
     .has-dd{position:relative;}
-    .dd-menu{display:none;position:absolute;top:calc(100% + 10px);left:0;background:var(--off-black);border:1px solid #2a2a2a;list-style:none;min-width:220px;padding:0.5rem 0;box-shadow:0 12px 40px rgba(0,0,0,0.7);}
+    .dd-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#111;border:1px solid #2a2a2a;list-style:none;min-width:210px;padding:0.4rem 0;box-shadow:0 12px 40px rgba(0,0,0,0.7);}
     .dd-menu.open{display:block;}
-    .dd-menu li a{display:block;padding:0.6rem 1.2rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light-gray);transition:background var(--t),color var(--t);}
-    .dd-menu li a:hover{background:var(--dark-gray);color:var(--white);}
-    .page-wrap{max-width:1400px;margin:0 auto;padding:calc(var(--nav-h) + 3rem) 2rem 6rem;}
-    .page-header{margin-bottom:2.5rem;border-bottom:1px solid #1e1e1e;padding-bottom:1.2rem;}
-    .eyebrow{font-family:'Hanken Grotesk',sans-serif;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.4rem;}
-    .page-header h1{font-family:'Typeka',Georgia,serif;font-size:clamp(1.2rem,2.5vw,2rem);letter-spacing:0.22em;font-weight:300;line-height:1;}
-    .gallery-grid{columns:3;column-gap:4px;}
-    @media(max-width:900px){.gallery-grid{columns:2;}}
-    @media(max-width:500px){.gallery-grid{columns:1;}}
-    .g-item{break-inside:avoid;margin-bottom:4px;cursor:pointer;overflow:hidden;position:relative;}
-    .g-item img{display:block;width:100%;height:auto;filter:brightness(0.88);transition:filter 0.4s,transform 0.5s;}
-    .g-item:hover img{filter:brightness(0.5);transform:scale(1.02);}
-    .g-cap{position:absolute;bottom:0;left:0;right:0;padding:2rem 0.8rem 0.6rem;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.78rem;color:var(--light-gray);opacity:0;transition:opacity 0.3s;}
-    .g-item:hover .g-cap{opacity:1;}
-    #lb{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.97);flex-direction:column;align-items:center;justify-content:center;}
-    #lb.open{display:flex;}
-    #lb img{max-width:90vw;max-height:82vh;object-fit:contain;}
-    .lb-close{position:fixed;top:1.2rem;right:1.5rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.9rem;color:var(--mid-gray);cursor:pointer;background:none;border:none;transition:color var(--t);}
-    .lb-close:hover{color:var(--white);}
-    .lb-prev,.lb-next{position:fixed;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--mid-gray);cursor:pointer;background:none;border:none;padding:1rem;transition:color var(--t);}
-    .lb-prev{left:0.5rem;}.lb-next{right:0.5rem;}
-    .lb-prev:hover,.lb-next:hover{color:var(--white);}
-    .lb-caption{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.82rem;color:var(--light-gray);text-align:center;max-width:600px;padding:0 1rem;}
-    .lb-counter{position:fixed;top:1.2rem;left:50%;transform:translateX(-50%);font-family:'Hanken Grotesk',sans-serif;font-size:0.55rem;letter-spacing:0.12em;color:var(--mid-gray);}
-    footer{border-top:1px solid #1e1e1e;text-align:center;padding:1.5rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.55rem;letter-spacing:0.1em;color:var(--mid-gray);}
-    footer a{color:var(--accent);}
+    .dd-menu li a{display:block;padding:0.55rem 1.1rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;transition:background .25s,color .25s;}
+    .dd-menu li a:hover{background:#1a1a1a;color:#f0ece4;}
+
+    /* PROJECT LABEL */
+    .proj-label{position:fixed;top:52px;left:0;right:0;z-index:90;padding:0.6rem 1.5rem;display:flex;align-items:baseline;gap:1rem;}
+    .proj-name{font-family:'Typeka',Georgia,serif;font-size:0.9rem;letter-spacing:0.22em;font-weight:300;color:#f0ece4;}
+    .proj-caption{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.78rem;color:#555;transition:color .3s;}
+
+    /* MAIN PHOTO AREA */
+    .photo-stage{position:fixed;top:88px;left:0;right:0;bottom:80px;display:flex;align-items:center;justify-content:center;}
+    .photo-stage img{max-width:100%;max-height:100%;object-fit:contain;display:block;cursor:pointer;}
+
+    /* PREV / NEXT */
+    .nav-prev,.nav-next{position:fixed;top:50%;transform:translateY(-50%);z-index:90;background:none;border:none;color:#333;font-size:1.2rem;cursor:pointer;padding:1.5rem;transition:color .25s;}
+    .nav-prev:hover,.nav-next:hover{color:#f0ece4;}
+    .nav-prev{left:0;}.nav-next{right:0;}
+
+    /* BOTTOM BAR */
+    .bottom-bar{position:fixed;bottom:0;left:0;right:0;z-index:90;height:80px;background:rgba(8,8,8,0.95);border-top:1px solid #1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;}
+    .index-strip{display:flex;align-items:center;gap:0.35rem;}
+    .idx-num{font-family:'Hanken Grotesk',sans-serif;font-size:0.5rem;letter-spacing:0.08em;color:#333;cursor:pointer;padding:0.1rem 0.15rem;transition:color .2s;}
+    .idx-num:hover,.idx-num.active{color:#f0ece4;}
+    .show-thumbs{font-family:'Hanken Grotesk',sans-serif;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:#333;cursor:pointer;transition:color .2s;border:none;background:none;}
+    .show-thumbs:hover{color:#f0ece4;}
+
+    /* THUMBNAIL STRIP */
+    .thumb-strip{position:fixed;bottom:80px;left:0;right:0;z-index:95;background:rgba(8,8,8,0.97);padding:0.8rem 1rem;display:none;flex-wrap:nowrap;gap:4px;overflow-x:auto;}
+    .thumb-strip.open{display:flex;}
+    .thumb-strip img{height:70px;width:auto;object-fit:cover;cursor:pointer;opacity:0.4;transition:opacity .2s;flex-shrink:0;}
+    .thumb-strip img:hover,.thumb-strip img.active{opacity:1;}
   </style>
 </head>
 <body>
-  <nav id="nav"><div class="nav-inner">
+  <nav id="nav">
     <a href="index.html" class="site-title">SNAFU PICTURES</a>
     <span class="nav-tag">The gyre is widening.</span>
     <ul class="nav-links">
@@ -72,44 +76,86 @@
       <li><a href="read-me.html">Read Me</a></li>
       <li><a href="mailto:snafujesus@instagram.com" class="nav-email">Contact</a></li>
     </ul>
-  </div></nav>
-  <div class="page-wrap">
-    <div class="page-header"><div class="eyebrow">Projects /</div><h1>OUTER DARK</h1></div>
-    <div class="gallery-grid" id="gallery">
-      <div class="g-item"><img src="Outer_Dark_image-asset.webp" alt="behold a pale horse"><div class="g-cap">behold a pale horse</div></div>
-      <div class="g-item"><img src="Outer_Dark__perch1.webp" alt="where the mountains drop into the sea"><div class="g-cap">where the mountains drop into the sea — the birds hunt demons</div></div>
-      <div class="g-item"><img src="Outer_Dark_AREQUIPA-2.webp" alt="tympanum"><div class="g-cap">tympanum — Santa Catalina Monastery, Arequipa. At one time a home for the wayward daughters of the rich, a lavish 5-acre nunnery whose old walls echo with rumors of orgies, secret tunnels, and unwanted infants buried in the walls.</div></div>
-      <div class="g-item"><img src="Outer_Dark_AREQUIPA.webp" alt="Arequipa"></div>
-      <div class="g-item"><img src="Outer_Dark_COLCA.webp" alt="Rock on Rock"><div class="g-cap">Rock on Rock (on Rock on Rock on Rock)</div></div>
-      <div class="g-item"><img src="Outer_Dark_DD010083.webp" alt="temple ceiling"></div>
-      <div class="g-item"><img src="Outer_Dark_DD010131.webp" alt="forest"></div>
-      <div class="g-item"><img src="Outer_Dark_DD010305.webp" alt="Buddha"></div>
-      <div class="g-item"><img src="Outer_Dark_DSCF3099.webp" alt="Colca canyon"></div>
-    </div>
+  </nav>
+
+  <div class="proj-label">
+    <span class="proj-name">OUTER DARK</span>
+    <span class="proj-caption" id="caption"></span>
   </div>
-  <div id="lb">
-    <button class="lb-close">&#x2715;</button>
-    <button class="lb-prev">&#x2190;</button>
-    <img id="lb-img" src="" alt="">
-    <button class="lb-next">&#x2192;</button>
-    <div class="lb-caption" id="lb-cap"></div>
-    <div class="lb-counter" id="lb-ct"></div>
+
+  <div class="photo-stage">
+    <img id="main-img" src="" alt="">
   </div>
-  <footer><p>&copy; SNAFU PICTURES &mdash; <a href="mailto:snafujesus@instagram.com">snafujesus@instagram.com</a></p></footer>
+
+  <button class="nav-prev" onclick="prev()">&#x2190;</button>
+  <button class="nav-next" onclick="next()">&#x2192;</button>
+
+  <div class="thumb-strip" id="thumb-strip"></div>
+
+  <div class="bottom-bar">
+    <div class="index-strip" id="index-strip"></div>
+    <button class="show-thumbs" onclick="toggleThumbs()">show thumbnails</button>
+  </div>
+
   <script>
+    const photos = [
+      {src:'Outer_Dark_image-asset.webp', cap:'behold a pale horse'},
+      {src:'Outer_Dark__perch1.webp', cap:'where the mountains drop into the sea — the birds hunt demons'},
+      {src:'Outer_Dark_AREQUIPA-2.webp', cap:'tympanum — Santa Catalina Monastery, Arequipa'},
+      {src:'Outer_Dark_AREQUIPA.webp', cap:''},
+      {src:'Outer_Dark_COLCA.webp', cap:'Rock on Rock (on Rock on Rock on Rock)'},
+      {src:'Outer_Dark_DD010083.webp', cap:''},
+      {src:'Outer_Dark_DD010131.webp', cap:''},
+      {src:'Outer_Dark_DD010305.webp', cap:''},
+      {src:'Outer_Dark_DSCF3099.webp', cap:''},
+    ];
+
+    let cur = 0;
+    const mainImg = document.getElementById('main-img');
+    const caption = document.getElementById('caption');
+    const indexStrip = document.getElementById('index-strip');
+    const thumbStrip = document.getElementById('thumb-strip');
+
+    function show(i) {
+      cur = (i + photos.length) % photos.length;
+      mainImg.src = photos[cur].src;
+      mainImg.alt = photos[cur].cap;
+      caption.textContent = photos[cur].cap;
+      document.querySelectorAll('.idx-num').forEach((n,j) => n.classList.toggle('active', j===cur));
+      document.querySelectorAll('.thumb-strip img').forEach((t,j) => t.classList.toggle('active', j===cur));
+    }
+    function next(){show(cur+1);}
+    function prev(){show(cur-1);}
+    function toggleThumbs(){thumbStrip.classList.toggle('open');}
+
+    // Build index numbers
+    photos.forEach((_,i) => {
+      const n = document.createElement('span');
+      n.className = 'idx-num';
+      n.textContent = i+1;
+      n.onclick = () => show(i);
+      indexStrip.appendChild(n);
+    });
+
+    // Build thumbnails
+    photos.forEach((p,i) => {
+      const t = document.createElement('img');
+      t.src = p.src;
+      t.alt = p.cap;
+      t.onclick = () => { show(i); thumbStrip.classList.remove('open'); };
+      thumbStrip.appendChild(t);
+    });
+
+    document.addEventListener('keydown', e => {
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+      if(e.key==='Escape') thumbStrip.classList.remove('open');
+    });
+
     const toggle=document.querySelector('.dd-toggle'),dd=document.querySelector('.dd-menu');
     if(toggle&&dd){toggle.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});document.addEventListener('click',()=>dd.classList.remove('open'));}
-    const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap'),lbCt=document.getElementById('lb-ct');
-    const items=Array.from(document.querySelectorAll('.g-item'));let cur=0;
-    function open(i){cur=i;const img=items[i].querySelector('img');const cap=items[i].querySelector('.g-cap');lbImg.src=img.src;lbImg.alt=img.alt;lbCap.textContent=cap?cap.textContent:'';lbCt.textContent=(i+1)+' / '+items.length;lb.classList.add('open');document.body.style.overflow='hidden';}
-    function close(){lb.classList.remove('open');document.body.style.overflow='';}
-    function prev(){open((cur-1+items.length)%items.length);}
-    function next(){open((cur+1)%items.length);}
-    items.forEach((item,i)=>item.addEventListener('click',()=>open(i)));
-    document.querySelector('.lb-close').addEventListener('click',close);
-    document.querySelector('.lb-prev').addEventListener('click',prev);
-    document.querySelector('.lb-next').addEventListener('click',next);
-    lb.addEventListener('click',e=>{if(e.target===lb)close();});
-    document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')prev();if(e.key==='ArrowRight')next();});
+
+    show(0);
   </script>
-</body></html>
+</body>
+</html>
