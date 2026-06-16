@@ -82,6 +82,10 @@
     <a class="back-link" href="/">← view site</a>
   </div>
 
+  <div id="new-project-bar" style="max-width:900px;margin:2rem auto 0;padding:0 2rem;display:flex;align-items:center;gap:1rem;">
+    <input id="new-proj-name" type="text" placeholder="New project title..." style="background:#111;border:1px solid #2a2a2a;color:#f0ece4;font-family:'Typeka',Georgia,serif;font-size:0.9rem;letter-spacing:0.12em;padding:0.6rem 1rem;width:280px;outline:none;">
+    <button onclick="createProject()" style="font-family:'Hanken Grotesk',sans-serif;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;background:transparent;border:1px solid #333;color:#555;padding:0.5rem 1.2rem;cursor:pointer;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#f0ece4';this.style.color='#f0ece4'" onmouseout="this.style.borderColor='#333';this.style.color='#555'">+ New Project</button>
+  </div>
   <div id="project-list">
     <!-- projects rendered here by JS -->
   </div>
@@ -99,7 +103,7 @@ const GITHUB_OWNER = 'snafujesus';
 const GITHUB_REPO = 'snafu-pictures';
 const GITHUB_BRANCH = 'main';
 
-const PROJECTS = [
+let PROJECTS = [
   {name:'Outer Dark', file:'data/outer-dark.json'},
   {name:'Signs of Disrepair', file:'data/signs-of-disrepair.json'},
   {name:'Southernmost', file:'data/southernmost.json'},
@@ -151,9 +155,10 @@ function renderAll() {
   PROJECTS.forEach(proj => {
     const section = document.createElement('div');
     section.className = 'proj-section';
+    const fid = 'fi_' + proj.file.replace(/[^a-z0-9]/gi,'_');
     section.innerHTML = '<div class="proj-title">' + proj.name +
-      '<button class="add-photo-btn" onclick="addPhoto(\'' + proj.file + '\', this)">+ Add Photo</button>' +
-      '<input type="file" class="file-input" accept="image/*" onchange="handleUpload(event,\'' + proj.file + '\')">' +
+      '<button class="add-photo-btn" onclick="addPhoto(\'' + proj.file + '\')">+ Add Photo</button>' +
+      '<input type="file" id="' + fid + '" class="file-input" accept="image/*" onchange="handleUpload(event,\'' + proj.file + '\')">' +
       '</div>' +
       '<div class="photo-grid" id="grid-' + btoa(proj.file) + '"></div>';
     container.appendChild(section);
@@ -217,9 +222,9 @@ function removePhoto(file, index) {
 
 // ---- ADD PHOTO ----
 function addPhoto(file, btn) {
-  const input = btn.parentElement.nextElementSibling;
-  input._targetFile = file;
-  input.click();
+
+
+
 }
 
 async function handleUpload(event, file) {
@@ -290,6 +295,24 @@ async function saveToGitHub(filepath, content, currentSha) {
     headers: {'Content-Type':'application/json','Authorization':'Bearer ' + jwt},
     body: JSON.stringify(body)
   });
+}
+
+// ---- CREATE PROJECT ----
+async function createProject() {
+  const name = document.getElementById('new-proj-name').value.trim();
+  if(!name) { alert('Enter a project title first.'); return; }
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const file = 'data/' + slug + '.json';
+  // Check not duplicate
+  if(PROJECTS.find(p=>p.file===file)) { alert('A project with that name already exists.'); return; }
+  const content = JSON.stringify({photos:[]}, null, 2);
+  setStatus('creating ' + name + '...');
+  await saveToGitHub(file, content, null);
+  PROJECTS.push({name, file});
+  state[file] = {photos:[]};
+  document.getElementById('new-proj-name').value = '';
+  renderAll();
+  setStatus('Project created — add photos and save.');
 }
 
 // ---- SAVE ALL ----

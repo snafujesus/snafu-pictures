@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNAFU PICTURES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Hanken+Grotesk:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    @font-face{font-family:'Typeka';src:url('Typeka.otf') format('opentype');}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;background:#080808;color:#f0ece4;font-family:'Hanken Grotesk',sans-serif;overflow:hidden;}
+    a{color:inherit;text-decoration:none;}
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(8,8,8,0.95);border-bottom:1px solid #1e1e1e;display:flex;align-items:center;padding:0 1.5rem;gap:1.5rem;}
+    .site-title{font-family:'Typeka',Georgia,serif;font-size:1rem;letter-spacing:0.14em;transition:color .25s;}
+    .site-title:hover{color:#c8a96e;}
+    .nav-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.72rem;color:#444;}
+    .nav-links{list-style:none;display:flex;align-items:center;gap:1.5rem;margin-left:auto;}
+    .nav-links>li>a,.nav-links>li>.dd-toggle{font-family:'Hanken Grotesk',sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;cursor:pointer;transition:color .25s;white-space:nowrap;}
+    .nav-links>li>a:hover,.nav-links>li>.dd-toggle:hover{color:#f0ece4;}
+    .nav-email{color:#c8a96e!important;}
+    .has-dd{position:relative;}
+    .dd-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#111;border:1px solid #2a2a2a;list-style:none;min-width:210px;padding:0.4rem 0;box-shadow:0 12px 40px rgba(0,0,0,0.7);}
+    .dd-menu.open{display:block;}
+    .dd-menu li a{display:block;padding:0.55rem 1.1rem;font-family:'Hanken Grotesk',sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;transition:background .25s,color .25s;}
+    .dd-menu li a:hover{background:#1a1a1a;color:#f0ece4;}
+    .proj-label{position:fixed;top:52px;left:0;right:0;z-index:90;padding:0.6rem 1.5rem;display:flex;align-items:baseline;gap:1rem;}
+    .proj-name{font-family:'Typeka',Georgia,serif;font-size:0.9rem;letter-spacing:0.22em;font-weight:300;color:#f0ece4;}
+    .proj-caption{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.78rem;color:#555;}
+    .photo-stage{position:fixed;top:88px;left:0;right:0;bottom:80px;display:flex;align-items:center;justify-content:center;transition:bottom .2s;}
+    .photo-stage img{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+    .nav-prev,.nav-next{position:fixed;top:50%;transform:translateY(-50%);z-index:90;background:none;border:none;color:#333;font-size:1.2rem;cursor:pointer;padding:1.5rem;transition:color .25s;}
+    .nav-prev:hover,.nav-next:hover{color:#f0ece4;}
+    .nav-prev{left:0;}.nav-next{right:0;}
+    .bottom-bar{position:fixed;bottom:0;left:0;right:0;z-index:90;height:80px;background:rgba(8,8,8,0.95);border-top:1px solid #1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;}
+    .index-strip{display:flex;align-items:center;gap:0.35rem;}
+    .idx-num{font-family:'Hanken Grotesk',sans-serif;font-size:0.5rem;letter-spacing:0.08em;color:#333;cursor:pointer;padding:0.1rem 0.15rem;transition:color .2s;}
+    .idx-num:hover,.idx-num.active{color:#f0ece4;}
+    .show-thumbs{font-family:'Hanken Grotesk',sans-serif;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:#333;cursor:pointer;transition:color .2s;border:none;background:none;}
+    .show-thumbs:hover{color:#f0ece4;}
+    .thumb-strip{position:fixed;bottom:80px;left:0;right:0;z-index:95;background:rgba(8,8,8,0.97);padding:0.8rem 1rem;display:none;flex-wrap:nowrap;gap:4px;overflow-x:auto;border-top:1px solid #1a1a1a;}
+    .thumb-strip.open{display:flex;}
+    .thumb-strip img{height:70px;width:auto;object-fit:cover;cursor:pointer;opacity:0.4;transition:opacity .2s;flex-shrink:0;}
+    .thumb-strip img:hover,.thumb-strip img.active{opacity:1;}
+    .empty-state{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+    .empty-state p{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.9rem;color:#333;}
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <a href="index.html" class="site-title">SNAFU PICTURES</a>
+    <span class="nav-tag">The gyre is widening.</span>
+    <ul class="nav-links">
+      <li><a href="projects.html">Projects</a></li>
+      <li class="has-dd"><span class="dd-toggle">Series &#x25BE;</span>
+        <ul class="dd-menu" id="series-menu"></ul>
+      </li>
+      <li><a href="read-me.html">Read Me</a></li>
+      <li><a href="mailto:snafujesus@instagram.com" class="nav-email">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="proj-label">
+    <span class="proj-name" id="proj-name"></span>
+    <span class="proj-caption" id="caption"></span>
+  </div>
+
+  <div class="photo-stage" id="stage"><img id="main-img" src="" alt=""></div>
+  <button class="nav-prev" onclick="prev()">&#x2190;</button>
+  <button class="nav-next" onclick="next()">&#x2192;</button>
+  <div class="thumb-strip" id="thumb-strip"></div>
+  <div class="bottom-bar">
+    <div class="index-strip" id="index-strip"></div>
+    <button class="show-thumbs" onclick="toggleThumbs()">show thumbnails</button>
+  </div>
+
+  <script>
+    // Get project slug from URL
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('project') || '';
+    const dataFile = '/data/' + slug + '.json';
+
+    let photos=[], cur=0;
+    const mainImg=document.getElementById('main-img');
+    const caption=document.getElementById('caption');
+    const projName=document.getElementById('proj-name');
+    const indexStrip=document.getElementById('index-strip');
+    const thumbStrip=document.getElementById('thumb-strip');
+    const stage=document.getElementById('stage');
+
+    function show(i){
+      cur=(i+photos.length)%photos.length;
+      mainImg.src=photos[cur].src;
+      mainImg.alt=photos[cur].cap||'';
+      caption.textContent=photos[cur].cap||'';
+      document.querySelectorAll('.idx-num').forEach((n,j)=>n.classList.toggle('active',j===cur));
+      document.querySelectorAll('.thumb-strip img').forEach((t,j)=>t.classList.toggle('active',j===cur));
+    }
+    function next(){show(cur+1);}
+    function prev(){show(cur-1);}
+    function toggleThumbs(){
+      const open=thumbStrip.classList.toggle('open');
+      stage.style.bottom=open?'172px':'80px';
+    }
+    function build(){
+      indexStrip.innerHTML='';
+      thumbStrip.innerHTML='';
+      if(!photos.length){
+        document.querySelector('.bottom-bar').style.display='none';
+        document.querySelector('.nav-prev').style.display='none';
+        document.querySelector('.nav-next').style.display='none';
+        stage.innerHTML='<div class="empty-state"><p>No photos yet.</p></div>';
+        return;
+      }
+      photos.forEach((p,i)=>{
+        const n=document.createElement('span');
+        n.className='idx-num';
+        n.textContent=i+1;
+        n.onclick=()=>show(i);
+        indexStrip.appendChild(n);
+        const t=document.createElement('img');
+        t.src=p.src;
+        t.alt=p.cap||'';
+        t.onclick=()=>show(i);
+        thumbStrip.appendChild(t);
+      });
+      show(0);
+    }
+
+    // Load all projects for nav dropdown
+    const KNOWN_PROJECTS = [
+      {name:'Signs of Disrepair', slug:'signs-of-disrepair'},
+      {name:'Southernmost', slug:'southernmost'},
+      {name:'Toothacre', slug:'toothacre'},
+      {name:'Outer Dark', slug:'outer-dark'},
+      {name:'Creases in the Map', slug:'creases'},
+      {name:'anguLAR', slug:'angular'},
+    ];
+    const menu = document.getElementById('series-menu');
+    KNOWN_PROJECTS.forEach(p=>{
+      const li=document.createElement('li');
+      li.innerHTML='<a href="gallery.html?project='+p.slug+'">'+p.name+'</a>';
+      menu.appendChild(li);
+    });
+    // Add trailers and inquiries
+    ['Trailers|trailers.html','Inquiries|inquiries.html'].forEach(s=>{
+      const [name,href]=s.split('|');
+      const li=document.createElement('li');
+      li.innerHTML='<a href="'+href+'">'+name+'</a>';
+      menu.appendChild(li);
+    });
+
+    // Load this project's photos
+    fetch(dataFile+'?t='+Date.now())
+      .then(r=>{
+        if(!r.ok) throw new Error('Not found');
+        return r.json();
+      })
+      .then(data=>{
+        // Set title from slug
+        const name = slug.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+        projName.textContent = name.toUpperCase();
+        document.title = name + ' — SNAFU PICTURES';
+        photos = data.photos || [];
+        build();
+      })
+      .catch(()=>{
+        projName.textContent = '404';
+        stage.innerHTML='<div class="empty-state"><p>Project not found.</p></div>';
+      });
+
+    document.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight')next();
+      if(e.key==='ArrowLeft')prev();
+      if(e.key==='Escape')thumbStrip.classList.remove('open');
+    });
+    const toggle=document.querySelector('.dd-toggle'),dd=document.querySelector('.dd-menu');
+    if(toggle&&dd){toggle.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});document.addEventListener('click',()=>dd.classList.remove('open'));}
+  </script>
+</body>
+</html>
