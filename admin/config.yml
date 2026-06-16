@@ -1,0 +1,85 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "."
+public_folder: "/"
+
+collections:
+  - name: "projects"
+    label: "Projects"
+    files:
+      - label: "Outer Dark"
+        name: "outer-dark"
+        file: "data/outer-dark.json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "src", widget: "image"}
+              - {label: "Caption", name: "cap", widget: "string", required: false}
+
+      - label: "Signs of Disrepair"
+        name: "signs-of-disrepair"
+        file: "data/signs-of-disrepair.json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "src", widget: "image"}
+              - {label: "Caption", name: "cap", widget: "string", required: false}
+
+      - label: "Southernmost"
+        name: "southernmost"
+        file: "data/southernmost.json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "src", widget: "image"}
+              - {label: "Caption", name: "cap", widget: "string", required: false}
+
+      - label: "Toothacre"
+        name: "toothacre"
+        file: "data/toothacre.json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "src", widget: "image"}
+              - {label: "Caption", name: "cap", widget: "string", required: false}
+
+      - label: "Creases in the Map"
+        name: "creases"
+        file: "data/creases.json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "src", widget: "image"}
+              - {label: "Caption", name: "cap", widget: "string", required: false}
+
+      - label: "anguLAR"
+        name: "angular"
+        file: "data/angular.json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            fields:
+              - {label: "Image", name: "src", widget: "image"}
+              - {label: "Caption", name: "cap", widget: "string", required: false}
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Read Me"
+        name: "readme"
+        file: "data/readme.json"
+        fields:
+          - {label: "Body", name: "body", widget: "markdown"}
