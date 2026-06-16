@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNAFU PICTURES — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    @font-face{font-family:'Typeka';src:url('../Typeka.otf') format('opentype');}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#080808;color:#f0ece4;font-family:'Hanken Grotesk',sans-serif;min-height:100vh;}
+    a{color:inherit;text-decoration:none;}
+
+    /* LOGIN */
+    #login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:1.5rem;}
+    #login-screen h1{font-family:'Typeka',Georgia,serif;font-size:1.4rem;letter-spacing:0.2em;font-weight:300;}
+    #login-screen p{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.85rem;color:#444;}
+    #pw-input{background:#111;border:1px solid #2a2a2a;color:#f0ece4;font-family:'Hanken Grotesk',sans-serif;font-size:0.85rem;padding:0.7rem 1rem;width:280px;outline:none;}
+    #pw-input:focus{border-color:#c8a96e;}
+    #login-btn{font-family:'Hanken Grotesk',sans-serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;background:transparent;border:1px solid #c8a96e;color:#c8a96e;padding:0.65rem 2rem;cursor:pointer;transition:background .2s,color .2s;}
+    #login-btn:hover{background:#c8a96e;color:#080808;}
+    #login-err{font-family:'Hanken Grotesk',sans-serif;font-size:0.6rem;color:#c0392b;letter-spacing:0.08em;display:none;}
+
+    /* MAIN ADMIN */
+    #admin{display:none;}
+    #top-bar{position:sticky;top:0;z-index:50;background:rgba(8,8,8,0.97);border-bottom:1px solid #1e1e1e;padding:0 2rem;height:56px;display:flex;align-items:center;gap:2rem;}
+    #top-bar .logo{font-family:'Typeka',Georgia,serif;font-size:1rem;letter-spacing:0.18em;font-weight:300;}
+    #top-bar .admin-tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.72rem;color:#444;}
+    #top-bar .back-link{font-family:'Hanken Grotesk',sans-serif;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:#555;margin-left:auto;cursor:pointer;transition:color .2s;}
+    #top-bar .back-link:hover{color:#f0ece4;}
+    #save-btn{font-family:'Hanken Grotesk',sans-serif;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;background:transparent;border:1px solid #c8a96e;color:#c8a96e;padding:0.5rem 1.4rem;cursor:pointer;transition:background .2s,color .2s;}
+    #save-btn:hover{background:#c8a96e;color:#080808;}
+    #save-status{font-family:'Hanken Grotesk',sans-serif;font-size:0.55rem;letter-spacing:0.1em;color:#444;}
+
+    /* PROJECT LIST */
+    #project-list{max-width:900px;margin:3rem auto;padding:0 2rem;}
+    .proj-section{margin-bottom:3rem;border-bottom:1px solid #1a1a1a;padding-bottom:2rem;}
+    .proj-title{font-family:'Typeka',Georgia,serif;font-size:1.1rem;letter-spacing:0.18em;font-weight:300;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;}
+    .add-photo-btn{font-family:'Hanken Grotesk',sans-serif;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;background:transparent;border:1px solid #333;color:#555;padding:0.4rem 1rem;cursor:pointer;transition:border-color .2s,color .2s;}
+    .add-photo-btn:hover{border-color:#f0ece4;color:#f0ece4;}
+
+    /* PHOTO GRID */
+    .photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
+    .photo-item{position:relative;background:#111;border:1px solid #1a1a1a;padding:0;}
+    .photo-item img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:brightness(0.85);}
+    .photo-item .photo-controls{padding:0.5rem;}
+    .photo-item input{background:#0a0a0a;border:none;border-bottom:1px solid #2a2a2a;color:#aaa;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:0.75rem;padding:0.3rem 0.2rem;width:100%;outline:none;}
+    .photo-item input:focus{border-bottom-color:#c8a96e;color:#f0ece4;}
+    .photo-item input::placeholder{color:#333;}
+    .remove-btn{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);border:none;color:#555;cursor:pointer;font-size:0.7rem;padding:0.2rem 0.4rem;transition:color .2s;}
+    .remove-btn:hover{color:#f0ece4;}
+    .drag-handle{position:absolute;top:4px;left:4px;background:rgba(0,0,0,0.7);color:#333;font-size:0.6rem;padding:0.2rem 0.4rem;cursor:grab;}
+
+    /* HIDDEN FILE INPUT */
+    .file-input{display:none;}
+
+    /* SAVE OVERLAY */
+    #saving-overlay{display:none;position:fixed;inset:0;background:rgba(8,8,8,0.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
+    #saving-overlay.show{display:flex;}
+    #saving-overlay p{font-family:'Hanken Grotesk',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:#555;}
+    #saving-overlay .saving-title{font-family:'Typeka',Georgia,serif;font-size:1.2rem;letter-spacing:0.2em;color:#f0ece4;}
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <h1>SNAFU PICTURES</h1>
+  <p>admin access</p>
+  <input type="password" id="pw-input" placeholder="password" onkeydown="if(event.key==='Enter')login()">
+  <button id="login-btn" onclick="login()">Enter</button>
+  <span id="login-err">incorrect password</span>
+</div>
+
+<!-- ADMIN -->
+<div id="admin">
+  <div id="top-bar">
+    <span class="logo">SNAFU PICTURES</span>
+    <span class="admin-tag">admin</span>
+    <span id="save-status"></span>
+    <button id="save-btn" onclick="saveAll()">Save &amp; Publish</button>
+    <a class="back-link" href="/">← view site</a>
+  </div>
+
+  <div id="project-list">
+    <!-- projects rendered here by JS -->
+  </div>
+</div>
+
+<div id="saving-overlay">
+  <div class="saving-title">SAVING</div>
+  <p>publishing to site...</p>
+</div>
+
+<script>
+// ---- CONFIG ----
+const PASSWORD = 'snafu2024'; // change this to whatever you want
+const GITHUB_OWNER = 'snafujesus';
+const GITHUB_REPO = 'snafu-pictures';
+const GITHUB_BRANCH = 'main';
+
+const PROJECTS = [
+  {name:'Outer Dark', file:'data/outer-dark.json'},
+  {name:'Signs of Disrepair', file:'data/signs-of-disrepair.json'},
+  {name:'Southernmost', file:'data/southernmost.json'},
+  {name:'Toothacre', file:'data/toothacre.json'},
+  {name:'Creases in the Map', file:'data/creases.json'},
+  {name:'anguLAR', file:'data/angular.json'},
+];
+
+let state = {}; // {file: {photos:[{src,cap}], sha}}
+let ghToken = null;
+
+// ---- LOGIN ----
+function login() {
+  const pw = document.getElementById('pw-input').value;
+  if(pw === PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+// ---- LOAD DATA ----
+async function loadAll() {
+  // Get GitHub token from Netlify Identity
+  const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+  if(user) {
+    const token = await user.jwt();
+    // Exchange for GitHub token via Git Gateway
+    const resp = await fetch('/.netlify/git/github', {
+      headers: {'Authorization': 'Bearer ' + token}
+    });
+    ghToken = token;
+  }
+
+  for(const proj of PROJECTS) {
+    const resp = await fetch('/' + proj.file + '?t=' + Date.now());
+    const data = await resp.json();
+    state[proj.file] = {photos: data.photos, sha: null};
+  }
+  renderAll();
+}
+
+// ---- RENDER ----
+function renderAll() {
+  const container = document.getElementById('project-list');
+  container.innerHTML = '';
+  PROJECTS.forEach(proj => {
+    const section = document.createElement('div');
+    section.className = 'proj-section';
+    section.innerHTML = '<div class="proj-title">' + proj.name +
+      '<button class="add-photo-btn" onclick="addPhoto(\'' + proj.file + '\', this)">+ Add Photo</button>' +
+      '<input type="file" class="file-input" accept="image/*" onchange="handleUpload(event,\'' + proj.file + '\')">' +
+      '</div>' +
+      '<div class="photo-grid" id="grid-' + btoa(proj.file) + '"></div>';
+    container.appendChild(section);
+    renderGrid(proj.file);
+  });
+}
+
+function renderGrid(file) {
+  const gridId = 'grid-' + btoa(file);
+  const grid = document.getElementById(gridId);
+  if(!grid) return;
+  grid.innerHTML = '';
+  (state[file].photos || []).forEach((photo, i) => {
+    const item = document.createElement('div');
+    item.className = 'photo-item';
+    item.draggable = true;
+    item.dataset.file = file;
+    item.dataset.index = i;
+    item.innerHTML =
+      '<span class="drag-handle">⠿</span>' +
+      '<button class="remove-btn" onclick="removePhoto(\'' + file + '\',' + i + ')">✕</button>' +
+      '<img src="/' + photo.src + '" onerror="this.style.background=\'#1a1a1a\';this.style.minHeight=\'100px\'">' +
+      '<div class="photo-controls">' +
+      '<input type="text" placeholder="caption..." value="' + (photo.cap||'').replace(/"/g,'&quot;') + '" ' +
+      'onchange="updateCaption(\'' + file + '\',' + i + ',this.value)">' +
+      '</div>';
+    grid.appendChild(item);
+    setupDrag(item, file);
+  });
+}
+
+// ---- DRAG REORDER ----
+let dragSrc = null;
+function setupDrag(el, file) {
+  el.addEventListener('dragstart', e => { dragSrc = el; el.style.opacity = '0.4'; });
+  el.addEventListener('dragend', e => { el.style.opacity = '1'; });
+  el.addEventListener('dragover', e => { e.preventDefault(); });
+  el.addEventListener('drop', e => {
+    e.preventDefault();
+    if(dragSrc === el) return;
+    const srcIdx = parseInt(dragSrc.dataset.index);
+    const tgtIdx = parseInt(el.dataset.index);
+    const photos = state[file].photos;
+    const [moved] = photos.splice(srcIdx, 1);
+    photos.splice(tgtIdx, 0, moved);
+    renderGrid(file);
+  });
+}
+
+// ---- CAPTION UPDATE ----
+function updateCaption(file, index, val) {
+  state[file].photos[index].cap = val;
+}
+
+// ---- REMOVE PHOTO ----
+function removePhoto(file, index) {
+  if(!confirm('Remove this photo?')) return;
+  state[file].photos.splice(index, 1);
+  renderGrid(file);
+}
+
+// ---- ADD PHOTO ----
+function addPhoto(file, btn) {
+  const input = btn.parentElement.nextElementSibling;
+  input._targetFile = file;
+  input.click();
+}
+
+async function handleUpload(event, file) {
+  const f = event.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    const base64 = e.target.result.split(',')[1];
+    const filename = f.name.replace(/\s+/g,'_');
+    // Upload to GitHub
+    setStatus('uploading ' + filename + '...');
+    await uploadToGitHub(filename, base64);
+    state[file].photos.push({src: filename, cap: ''});
+    renderGrid(file);
+    setStatus('');
+  };
+  reader.readAsDataURL(f);
+}
+
+// ---- GITHUB API ----
+async function getGHToken() {
+  const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+  if(!user) return null;
+  const jwt = await user.jwt();
+  const resp = await fetch('/.netlify/git/github', {
+    method: 'GET',
+    headers: {'Authorization': 'Bearer ' + jwt}
+  });
+  // The git gateway proxies to GitHub — use the JWT directly
+  return jwt;
+}
+
+async function uploadToGitHub(filename, base64) {
+  const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+  if(!user) { alert('Not authenticated with Netlify'); return; }
+  const jwt = await user.jwt();
+  await fetch('/.netlify/git/github/contents/' + filename, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer ' + jwt},
+    body: JSON.stringify({message:'Add ' + filename, content: base64, branch: GITHUB_BRANCH})
+  });
+}
+
+async function saveToGitHub(filepath, content, currentSha) {
+  const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+  if(!user) { alert('Not authenticated'); return; }
+  const jwt = await user.jwt();
+
+  // Get current SHA
+  const getResp = await fetch('/.netlify/git/github/contents/' + filepath, {
+    headers: {'Authorization': 'Bearer ' + jwt}
+  });
+  let sha = null;
+  if(getResp.ok) {
+    const d = await getResp.json();
+    sha = d.sha;
+  }
+
+  const body = {
+    message: 'Update ' + filepath,
+    content: btoa(unescape(encodeURIComponent(content))),
+    branch: GITHUB_BRANCH
+  };
+  if(sha) body.sha = sha;
+
+  await fetch('/.netlify/git/github/contents/' + filepath, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer ' + jwt},
+    body: JSON.stringify(body)
+  });
+}
+
+// ---- SAVE ALL ----
+async function saveAll() {
+  document.getElementById('saving-overlay').classList.add('show');
+  try {
+    for(const proj of PROJECTS) {
+      const content = JSON.stringify({photos: state[proj.file].photos}, null, 2);
+      await saveToGitHub(proj.file, content, null);
+    }
+    document.getElementById('saving-overlay').classList.remove('show');
+    setStatus('saved — site updating...');
+    setTimeout(()=>setStatus(''), 4000);
+  } catch(err) {
+    document.getElementById('saving-overlay').classList.remove('show');
+    alert('Save failed: ' + err.message);
+  }
+}
+
+function setStatus(msg) {
+  document.getElementById('save-status').textContent = msg;
+}
+</script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</body>
+</html>
